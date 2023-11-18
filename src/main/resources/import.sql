@@ -1,0 +1,1 @@
+INSERT INTO tb_product (name, price, img_Url, short_Description) VALUES ('Laranja', 5, 'www.imglaranja.com', 'Laranja inteira proteica');
