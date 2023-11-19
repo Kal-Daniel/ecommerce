@@ -1,7 +1,4 @@
 package com.devdomain.ecommerce.dto;
-
-import java.util.Objects;
-
 import com.devdomain.ecommerce.entities.Product;
 
 public class ProductDTO {

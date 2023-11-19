@@ -9,26 +9,20 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="tb_product")
-public class Product {
-	
+@Table(name="tb_list")
+public class ProductList {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
-	private Double price;
-	private String imgUrl;
-	private String shortDescription;
 	
-	public Product() {
+	public ProductList() {
 	}
 
-	public Product(Long id, String name, Double price, String imgUrl, String shortDescription) {
+	public ProductList(Long id, String name) {
 		this.id = id;
 		this.name = name;
-		this.price = price;
-		this.imgUrl = imgUrl;
-		this.shortDescription = shortDescription;
 	}
 
 	public Long getId() {
@@ -47,30 +41,6 @@ public class Product {
 		this.name = name;
 	}
 
-	public Double getPrice() {
-		return price;
-	}
-
-	public void setPrice(Double price) {
-		this.price = price;
-	}
-
-	public String getImgUrl() {
-		return imgUrl;
-	}
-
-	public void setImgUrl(String imgUrl) {
-		this.imgUrl = imgUrl;
-	}
-
-	public String getShortDescription() {
-		return shortDescription;
-	}
-
-	public void setShortDescription(String shortDescription) {
-		this.shortDescription = shortDescription;
-	}
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -84,7 +54,7 @@ public class Product {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Product other = (Product) obj;
+		ProductList other = (ProductList) obj;
 		return Objects.equals(id, other.id);
 	}
 	
