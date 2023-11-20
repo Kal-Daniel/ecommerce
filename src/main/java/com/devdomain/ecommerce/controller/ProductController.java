@@ -3,20 +3,14 @@ package com.devdomain.ecommerce.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.devdomain.ecommerce.dbexception.ErrorResponse;
 import com.devdomain.ecommerce.dto.ProductDTO;
 import com.devdomain.ecommerce.dto.ProductDTOall;
 import com.devdomain.ecommerce.services.ProductService;
-
-import jakarta.persistence.EntityNotFoundException;
 
 @RestController
 @RequestMapping(value = "/produtos")
@@ -35,15 +29,5 @@ public class ProductController {
 	public List<ProductDTO> findAll(){
 		List<ProductDTO> result = productService.findAll();
 		return result;
-	}
-	
-	@ExceptionHandler(EntityNotFoundException.class)
-	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public ErrorResponse handleEntityNotFoundException(EntityNotFoundException e) {
-	    ErrorResponse errorResponse = new ErrorResponse();
-	    errorResponse.setCode(404);
-	    errorResponse.setMessage("Produto não encontrado");
-
-	    return errorResponse;
 	}
 }
