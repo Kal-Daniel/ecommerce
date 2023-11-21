@@ -38,4 +38,9 @@ public class ProductService {
 		}
 		return result.stream().map(item -> new ProductDTO(item)).toList();
 	}
+	
+	@Transactional(readOnly= true)
+	public Product inserir(Product product) {
+		return productRepository.save(product);
+	}
 }
