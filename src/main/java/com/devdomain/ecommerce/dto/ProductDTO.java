@@ -1,5 +1,6 @@
 package com.devdomain.ecommerce.dto;
 import com.devdomain.ecommerce.entities.Product;
+import com.devdomain.ecommerce.projections.ProductProjection;
 
 public class ProductDTO {
 
@@ -7,6 +8,7 @@ public class ProductDTO {
 	private String name;
 	private Double price;
 	private String imgUrl;
+	private Integer quantity;
 	private String shortDescription;
 	
 	public ProductDTO() {
@@ -17,10 +19,18 @@ public class ProductDTO {
 		name = entity.getName();
 		price = entity.getPrice();
 		imgUrl = entity.getImgUrl();
+		quantity = entity.getQuantity();
 		shortDescription = entity.getShortDescription();
 	}
-
 	
+	public ProductDTO(ProductProjection projection) {
+		id = projection.getId();
+		name = projection.getName();
+		price = projection.getPrice();
+		imgUrl = projection.getImgUrl();
+		quantity = projection.getQuantity();
+		shortDescription = projection.getText();
+	}
 	
 	public Long getId() {
 		return id;
@@ -36,6 +46,10 @@ public class ProductDTO {
 
 	public String getImgUrl() {
 		return imgUrl;
+	}
+	
+	public Integer getQuantity() {
+		return quantity;
 	}
 
 	public String getShortDescription() {

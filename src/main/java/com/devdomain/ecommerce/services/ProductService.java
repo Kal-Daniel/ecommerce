@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.devdomain.ecommerce.dto.ProductDTO;
 import com.devdomain.ecommerce.dto.ProductDTOall;
 import com.devdomain.ecommerce.entities.Product;
+import com.devdomain.ecommerce.projections.ProductProjection;
 import com.devdomain.ecommerce.repositories.ProductRepository;
 
 @Service
@@ -27,6 +28,12 @@ public class ProductService {
 	@Transactional(readOnly = true)
 	public List<ProductDTO> findAll(){
 		List<Product> result = productRepository.findAll();
+		return result.stream().map(item -> new ProductDTO(item)).toList();
+	}
+	
+	@Transactional(readOnly = true)
+	public List<ProductDTO> findByList(Long listId){
+		List<ProductProjection> result = productRepository.searchByList(listId);
 		return result.stream().map(item -> new ProductDTO(item)).toList();
 	}
 }
