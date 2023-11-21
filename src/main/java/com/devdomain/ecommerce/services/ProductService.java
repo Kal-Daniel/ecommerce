@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.devdomain.ecommerce.dto.ProductDTO;
-import com.devdomain.ecommerce.dto.ProductDTOall;
 import com.devdomain.ecommerce.entities.Product;
 import com.devdomain.ecommerce.projections.ProductProjection;
 import com.devdomain.ecommerce.repositories.ProductRepository;
+import com.devdomain.ecommerce.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class ProductService {
@@ -19,21 +19,23 @@ public class ProductService {
 	private ProductRepository productRepository;
 	
 	@Transactional(readOnly = true)
-	public ProductDTOall findById(Long id) {
-		Product result = productRepository.findById(id).get();
-		ProductDTOall dto = new ProductDTOall(result);
-		return dto;
+	public Product findById(Long id) {
+		return productRepository.findById(id).orElseThrow(
+				() -> new ResourceNotFoundException("Id não encontrado: " + id));
 	}
 	
 	@Transactional(readOnly = true)
-	public List<ProductDTO> findAll(){
+	public List<ProductDTO> findAll() {
 		List<Product> result = productRepository.findAll();
 		return result.stream().map(item -> new ProductDTO(item)).toList();
 	}
 	
 	@Transactional(readOnly = true)
-	public List<ProductDTO> findByList(Long listId){
+	public List<ProductDTO> findByList(Long listId) {
 		List<ProductProjection> result = productRepository.searchByList(listId);
+		if (result.isEmpty()) {
+			throw new ResourceNotFoundException("Id não encontrado: " + listId);
+		}
 		return result.stream().map(item -> new ProductDTO(item)).toList();
 	}
 }

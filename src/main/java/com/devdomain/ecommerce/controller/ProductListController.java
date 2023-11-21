@@ -31,7 +31,6 @@ public class ProductListController {
 	
 	@GetMapping(value = "/{listId}/produtos")
 	public List<ProductDTO> findByList(@PathVariable Long listId) {
-		List<ProductDTO> result = productService.findByList(listId);
-		return result;
+		return productService.findByList(listId);
 	}
 }

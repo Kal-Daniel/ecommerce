@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.devdomain.ecommerce.dto.ProductDTO;
 import com.devdomain.ecommerce.dto.ProductDTOall;
+import com.devdomain.ecommerce.entities.Product;
 import com.devdomain.ecommerce.services.ProductService;
 
 @RestController
@@ -19,10 +20,12 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 	
-	@GetMapping(value="/{id}")
-	public ProductDTOall findById(@PathVariable Long id){
-		ProductDTOall result = productService.findById(id);
-		return result;
+	@GetMapping
+	@RequestMapping(value="{id}")
+	public ProductDTOall findById(@PathVariable Long id) {
+		Product product = productService.findById(id);
+		ProductDTOall teste = new ProductDTOall(product);
+		return teste;
 	}
 	
 	@GetMapping
@@ -30,4 +33,6 @@ public class ProductController {
 		List<ProductDTO> result = productService.findAll();
 		return result;
 	}
+	
+	
 }
