@@ -1,7 +1,6 @@
 package com.devdomain.ecommerce.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,5 +49,20 @@ public class ProductService {
 		new ResourceNotFoundException("Id não encontrado: " + id));
 
 	    productRepository.delete(product);
+	}
+	
+	@Transactional
+	public Product update(Long id, Product product) {
+		Product entity = productRepository.getReferenceById(id);
+		updateProduct(entity, product);
+		return productRepository.save(entity);
+	}
+
+	private void updateProduct(Product entity, Product product) {
+		entity.setName(product.getName());
+		entity.setPrice(product.getPrice());
+		entity.setImgUrl(product.getImgUrl());
+		entity.setQuantity(product.getQuantity());
+		entity.setShortDescription(product.getShortDescription());
 	}
 }

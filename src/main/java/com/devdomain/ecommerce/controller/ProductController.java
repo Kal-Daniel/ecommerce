@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,9 +49,15 @@ public class ProductController {
 		return ResponseEntity.created(uri).body(pdc);
 	}
 	
-	@DeleteMapping(value = "{id}")
+	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id){
 		productService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
+	
+	@PutMapping(value = "/{id}")
+	public ResponseEntity<Product> update(@PathVariable Long id, @RequestBody Product product){
+		product = productService.update(id, product);
+		return ResponseEntity.ok().body(product);
+	} 
 }

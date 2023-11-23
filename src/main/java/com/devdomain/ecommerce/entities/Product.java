@@ -69,7 +69,7 @@ public class Product {
 		return this.quantity;
 	}
 	
-	public void setInteger(Integer quantity) {
+	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
 
