@@ -12,6 +12,8 @@ import com.devdomain.ecommerce.projections.ProductProjection;
 import com.devdomain.ecommerce.repositories.ProductRepository;
 import com.devdomain.ecommerce.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class ProductService {
 	
@@ -53,10 +55,15 @@ public class ProductService {
 	
 	@Transactional
 	public Product update(Long id, Product product) {
-		Product entity = productRepository.getReferenceById(id);
-		updateProduct(entity, product);
-		return productRepository.save(entity);
+	    try {
+	        Product entity = productRepository.getReferenceById(id);
+	        updateProduct(entity, product);
+	        return productRepository.save(entity);
+	    } catch (EntityNotFoundException ex) {
+	        throw new ResourceNotFoundException("Id não encontrado: " + id);
+	    }
 	}
+
 
 	private void updateProduct(Product entity, Product product) {
 		entity.setName(product.getName());
