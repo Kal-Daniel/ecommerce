@@ -3,6 +3,7 @@ package com.devdomain.ecommerce.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,6 +11,7 @@ import com.devdomain.ecommerce.dto.ProductDTO;
 import com.devdomain.ecommerce.entities.Product;
 import com.devdomain.ecommerce.projections.ProductProjection;
 import com.devdomain.ecommerce.repositories.ProductRepository;
+import com.devdomain.ecommerce.services.exceptions.DatabaseException;
 import com.devdomain.ecommerce.services.exceptions.ResourceNotFoundException;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -47,11 +49,15 @@ public class ProductService {
 	}
 	
 	public void delete (Long id) {
-		Product product = productRepository.findById(id).orElseThrow(() ->
-		new ResourceNotFoundException("Id não encontrado: " + id));
+		try {
+            Product product = productRepository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("Id não encontrado: " + id));
 
-	    productRepository.delete(product);
-	}
+            productRepository.delete(product);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException(e.getMessage());
+        }
+    }
 	
 	@Transactional
 	public Product update(Long id, Product product) {
